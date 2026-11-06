@@ -1,0 +1,30 @@
+KING Firebase migration — November 2026
+1. Firebase Console > KING project > Authentication: verify both admin and operator accounts exist in THIS project and have the listed UIDs. An account in the old project is not automatically migrated.
+2. Realtime Database > Rules: paste KING-REALTIME-DATABASE-RULES.json and Publish. This replaces the existing rules; it preserves KING roster access.
+3. Authentication > Settings > Authorized domains: add kingbcid.github.io.
+4. Upload ALL contents of the corresponding ZIP to the ROOT of the correct GitHub Pages repository, not into a subfolder.
+5. On Control mode, sign in with a KING Firebase Authentication account. Display mode remains public.
+6. This does not migrate prior scoreboard match state. Start a new match or manually copy state if necessary.
+7. For KING Player Statistics, clock connection settings saved locally may still refer to the old Firebase. The updated app migrates the old default URL automatically on load; check the connection settings if you customized them.
+8. Do not deploy the new scoreboard while the old operator is still running a live game. Test before an event.
+
+KING Player Statistics — Firebase roster
+
+1. Firebase Authentication: aktifkan Email/Password dan buat admin dengan UID yang disepakati.
+2. Realtime Database > Rules > Publish:
+{
+  "rules": {
+    "kingStats": {
+      "players": {
+        ".read": "auth != null && auth.uid === 'Y9ob3I1FgFgvhnDjVkQWRLptKPd2'",
+        ".write": "auth != null && auth.uid === 'Y9ob3I1FgFgvhnDjVkQWRLptKPd2'"
+      }
+    }
+  }
+}
+3. Upload semua file ke root repository KING Player Statistics (tanpa folder pembungkus).
+4. Login lewat tab Roster. Jika path kingStats/players masih kosong, 28 pemain dari Excel diunggah otomatis SATU KALI.
+5. Roster Firebase tidak diganti ketika backup statistik lokal diimpor. Statistik tetap tersimpan di browser dan dapat hilang jika data browser dihapus.
+6. Koneksi Game Clock sekarang memakai Firebase KING.
+7. Agar login bisa dipakai di GitHub Pages, tambahkan domain kingbcid.github.io pada Authentication > Settings > Authorized domains.
+8. Internet diperlukan saat login dan mengubah roster. Statistik lokal tetap dapat digunakan ketika offline setelah halaman termuat.
